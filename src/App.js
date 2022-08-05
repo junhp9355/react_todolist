@@ -25,9 +25,12 @@ function App () {
 
   ///// url 주소 때문에 오류 있었음, express 코드에서 check으로 설정되어 있었음
   const onToggle = async (id) => {
+    try{
       const data = await axios.patch(`http://localhost:4000/todos/abc/${id}`)
       setTodos(data.data)
-
+    } catch(e) {
+      setError(e);
+    }
   };
  
 /// id값으로 제거 >>> url 뒤에 id값 추가
