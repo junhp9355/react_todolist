@@ -12,9 +12,25 @@ function App () {
   const [selectTodo, setSelectTodo] = useState(null);
   const [error, setError]= useState(null);
   const [isLoading, setIsLoading]= useState(true);
-  //
-
-  // const nextId = useRef(1);
+  /// Drag & Drop
+  const handleDragStart = (e, todo) => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData('tmp', JSON.stringify(todo));
+  };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+  const handleDrop = async (e, targetItem) => {
+    e.preventDefault();
+    try {
+      const originalItem = await JSON.parse(e.dataTransfer.getData("tmp"));
+      const data = await axios.patch(`http://localhost:4000/todos/swap/${originalItem.id}`, {targetId: targetItem.id});
+      setTodos(data.data);
+    } catch(e) {
+      setError(e);
+    }
+  };
+  ///
 
   const onInsert = async (text) => {
     try{
@@ -63,7 +79,7 @@ function App () {
           url: "http://localhost:4000/todos",
           method: "get",
         });
-        setTodos(todos => [...data.data]);
+        setTodos(data.data);
         setIsLoading(false);
       } catch(e) {
         setError(e);
@@ -85,7 +101,8 @@ function App () {
     <>
       <TodoTemplate>
         <TodoInsert onInsert={onInsert} />
-        <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} onInsertToggle={onInsertToggle} setSelectTodo={setSelectTodo} />
+        <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} onInsertToggle={onInsertToggle} setSelectTodo={setSelectTodo}
+         handleDragStart={handleDragStart} handleDragOver={handleDragOver} handleDrop={handleDrop} />
         {insertToggle && (<TodoEdit onInsertToggle={onInsertToggle} selectTodo={selectTodo} onUpdate={onUpdate} />)}
       </TodoTemplate>
 

@@ -6,7 +6,7 @@ import { MdCheckBox, MdCheckBoxOutlineBlank, MdModeEditOutline, MdRemoveCircleOu
 
 
 
-const TodoListItem = ({todo, onRemove, onInsertToggle, onToggle, setSelectTodo, }) => {
+const TodoListItem = ({todo, onRemove, onInsertToggle, onToggle, setSelectTodo, handleDragStart, handleDragOver, handleDrop }) => {
     const { id, text, checked} = todo;
 ////
 
@@ -15,7 +15,7 @@ const TodoListItem = ({todo, onRemove, onInsertToggle, onToggle, setSelectTodo, 
 
 
     return (
-        <li className='TodoListItem' draggable onDrop={e=>{e.preventDefault()}} >
+        <li className='TodoListItem' draggable={true} onDragStart={(e) => {handleDragStart(e, todo)}} onDragOver={handleDragOver} onDrop={(e)=> {handleDrop(e, todo)}} >
                 <div className={cn("checkbox", {checked: checked})} onClick={()=> {onToggle(id)}} >
                     {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
                     <div className='text'>{text}</div>
