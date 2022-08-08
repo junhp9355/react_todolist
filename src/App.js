@@ -9,7 +9,8 @@ function App () {
   const [todos, setTodos] = useState([]);
   const [insertToggle, setInsertToggle] = useState(false);
   const [selectTodo, setSelectTodo] = useState(null);
-  const [error, setError]= useState(null)
+  const [error, setError]= useState(null);
+  const [isLoading, setIsLoading]= useState(true);
   //
   // const nextId = useRef(1);
 
@@ -53,7 +54,6 @@ function App () {
     }
   }
   
-  /// useEffect / getData 함수로 DB 적용
   useEffect(()=>{
     const getData = async () => {
       try {
@@ -62,6 +62,7 @@ function App () {
           method: "get",
         });
         setTodos(todos => [...data.data]);
+        setIsLoading(false);
       } catch(e) {
         setError(e);
     }
@@ -72,7 +73,11 @@ function App () {
   if (error){
     console.log(error)
     return <>에러:{error.message}</>
-  }
+  };
+
+  if (isLoading){
+    return <>Loading...</>
+  };
   
     return (
     <>

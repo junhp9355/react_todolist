@@ -14,7 +14,6 @@ const TodoListItem = ({todo, onRemove, onInsertToggle, onToggle, setSelectTodo,}
             </div>
             <div className='edit'
                 onClick={()=> {
-                    // changeSelectTodo(todo)
                     setSelectTodo(todo);
                     onInsertToggle()
                 }}
