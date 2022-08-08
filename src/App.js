@@ -5,6 +5,7 @@ import TodoList from './components/TodoList';
 import TodoTemplate from './components/TodoTemplate';
 import axios from 'axios';
 
+
 function App () {
   const [todos, setTodos] = useState([]);
   const [insertToggle, setInsertToggle] = useState(false);
@@ -12,6 +13,7 @@ function App () {
   const [error, setError]= useState(null);
   const [isLoading, setIsLoading]= useState(true);
   //
+
   // const nextId = useRef(1);
 
   const onInsert = async (text) => {
@@ -83,9 +85,10 @@ function App () {
     <>
       <TodoTemplate>
         <TodoInsert onInsert={onInsert} />
-        <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} onInsertToggle={onInsertToggle} setSelectTodo={setSelectTodo}  />
+        <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} onInsertToggle={onInsertToggle} setSelectTodo={setSelectTodo} />
         {insertToggle && (<TodoEdit onInsertToggle={onInsertToggle} selectTodo={selectTodo} onUpdate={onUpdate} />)}
       </TodoTemplate>
+
     </>
   );
 };
